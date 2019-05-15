@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style_game.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <title>Ship Locations!</title>
+</head>
+
+<body>
+    <div id="app">
+       
+        <div id="snackbar"></div>
+        
+        <span class="pagetitle">Salvo!</span>
+
+        <h5 class="gametitle" v-for="player in players">{{player.playerOne}} vs {{player.playerTwo}}</h5>
+
+        <div class="gamestate_message" v-if="gameState == 'Please wait for opponent to place ships.' ">Please wait for opponent to place ships...</div>
+
+        <div class="gamestate_message" v-if="gameState == 'Please wait for opponent to fire salvoes.' ">Please wait for opponent to fire salvoes...</div>
+
+        <div class="gamestate_message" v-if="gameState == 'Game over!' ">Game over! You've lost :(</div>
+
+        <div class="gamestate_message" v-if="gameState == 'You have won the game!' ">You have won the game!</div>
+
+        <div class="gamestate_message" v-if="gameState == 'It is a tie!' ">Game over! It's a tie!</div>
+        
+        <div class="gamestate_message" v-if="gameState == undefined">Please wait for other player to join game...</div>
+
+        <div class="tablecontainer">
+            <div class="tablewrapper">
+                <h3 class="gamesubtitle">Ships</h3>
+                <table class="gametable" :class=" { disabled: gameState != 'Place your ships.' } ">
+                    <tbody>
+                        <tr>
+                            <th></th>
+                            <th v-for="column in columns">{{ column }}</th>
+                        </tr>
+                        <tr v-for="row in rows">
+                            <th>{{ row }}</th>
+                            <td v-for="column in columns" :id="'U' + row + column" @click="selectACell(row, column)" :class="addCellsClass(row, column)" @mouseover="hover = true, hoverShip(row, column)" @mouseleave="hover = false"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div @click="donePlacing()" class="submitbutton" :class="{ disabledbutton: gameState != 'Place your ships.' }">Place ships</div>
+
+                <div class="togglecontainer">
+                    <div class="inner-container">
+                        <div class="toggle" @click="orientationToggle(true)">
+                            <p>Vertical</p>
+                        </div>
+                        <div class="toggle" @click="orientationToggle(false)">
+                            <p>Horizontal</p>
+                        </div>
+                    </div>
+                    <div class="inner-container" id="toggle-container">
+                        <div class="toggle">
+                            <p>Vertical</p>
+                        </div>
+                        <div class="toggle">
+                            <p>Horizontal</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="submitbutton back" onclick="window.location='/web/games.html'">Back to game manager</div>
+
+                <table class="shiptable" :class="{ disabledship: gameState != 'Place your ships.' }">
+                    <tr @click="selectShip('aircraft-carrier')" :class="{ selected: selectedShip.type == 'aircraft-carrier',
+            placed: allShipTypes.includes('aircraft-carrier') }">
+                        <th>Aircraft Carrier</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr @click="selectShip('battleship')" :class="{ selected: selectedShip.type == 'battleship', placed: allShipTypes.includes('battleship') }">
+                        <th>Battleship</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr @click="selectShip('submarine')" :class="{ selected: selectedShip.type == 'submarine', placed: allShipTypes.includes('submarine') }">
+                        <th>Submarine</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr @click="selectShip('destroyer')" :class="{ selected: selectedShip.type == 'destroyer', placed: allShipTypes.includes('destroyer') }">
+                        <th>Destroyer</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr @click="selectShip('patrol-boat')" :class="{ selected: selectedShip.type == 'patrol-boat', placed: allShipTypes.includes('patrol-boat') }">
+                        <th>Patrol Boat</th>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="tablewrapper">
+                <h3 class="gamesubtitle">Salvoes</h3>
+                <table class="gametable" :class=" { disabled: gameState != 'Fire your salvoes!' } ">
+                    <tbody>
+                        <tr>
+                            <th></th>
+                            <th v-for="column in columns">{{ column }}</th>
+                        </tr>
+                        <tr v-for="row in rows">
+                            <th>{{ row }}</th>
+                            <td v-for="column in columns" :id="'E' + row + column" @click="selectSalvoes(row, column)"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="submitbutton fire" @click="fireSalvoes()" :class=" { disabledbutton: gameState != 'Fire your salvoes!' }">Fire salvoes</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="game.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</body>
+
+</html>

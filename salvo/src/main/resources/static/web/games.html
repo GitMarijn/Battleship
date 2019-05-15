@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style_games.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <title>Salvo!</title>
+</head>
+
+<body>
+    <div id="app">
+
+        <div id="snackbar"></div>
+
+        <div @click="logout()" v-if="show == true" class="submitbutton logout">Log out</div>
+
+        <span class="pagetitle">Salvo!</span>
+
+        <div class="loginscreen" v-if="show == false">
+            <label>Email: <input type="email" id="userName" placeholder="Enter email"></label>
+            <label>Password: <input type="password" id="password" placeholder="Password"></label>
+            <div @click="login()" class="submitbutton login">Log in</div>
+            <div @click="signup()" class="submitbutton signup">Sign up</div>
+        </div>
+
+        <div @click="newGame()" v-if="show == true" class="submitbutton newgame">New game</div>
+
+        <div v-if="show == true" class="wrapper">
+
+            <div class="subwrapper">
+                <span class="subtitle">Game overview</span>
+                <table class="table table-sm">
+                    <tr>
+                        <th>Starting date</th>
+                        <th>Player 1</th>
+                        <th>Player 2</th>
+                        <th>Status</th>
+                    </tr>
+
+                    <tr v-for="game in gamesArray">
+                        <td>
+                            <a>{{game.date}}</a>
+                        </td>
+                        <td>
+                            <a>{{game.playerOne}}</a>
+                        </td>
+                        <td>
+                            <a>{{game.playerTwo}}</a>
+                        </td>
+
+                        <td v-if="data.player.email != game.playerTwo && data.player.email != game.playerOne && game.playerTwo != '-'">Game is full</td>
+                        <td v-if="data.player.email == game.playerTwo || data.player.email == game.playerOne">
+                            <a v-if="data.player.email == game.playerOne" :href='"/web/game.html?gp=" + game.gpID1'>
+                                Return
+                            </a>
+                            <a v-if="data.player.email == game.playerTwo" :href='"/web/game.html?gp=" + game.gpID2'>
+                                Return
+                            </a>
+                        </td>
+                        <td v-if="data.player.email != game.playerOne && game.playerTwo == '-'">
+                            <a id="join" @click="joinGame()" :data-gameID="game.gameID" href="#">Join</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="subwrapper">
+                <span class="subtitle">Leaderboard</span>
+                <table class="table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Total</th>
+                        <th>Won</th>
+                        <th>Lost</th>
+                        <th>Tied</th>
+                    </tr>
+                    <tr v-for="player in leaderBoard.slice(0, 3)">
+                        <td>{{player.player}}</td>
+                        <td>{{player.total}}</td>
+                        <td>{{player.wins}}</td>
+                        <td>{{player.losses}}</td>
+                        <td>{{player.ties}}</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="games.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</body>
+
+</html>

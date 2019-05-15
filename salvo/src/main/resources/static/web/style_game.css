@@ -1,0 +1,334 @@
+body {
+    padding: 0px 20px 10px 20px;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+}
+
+.pagetitle {
+    font-size: 60px;
+    display: flex;
+    justify-content: center;
+    color: #368fef;
+    font-weight: bold;
+    border-bottom-style: solid;
+    border-bottom-color: lightgray;
+    border-bottom-width: 1px;
+}
+
+.gametable {
+    display: flex;
+    text-align: center;
+    margin: 0px 10px 20px 10px;
+}
+
+.gametable td {
+    height: 42px;
+    width: 42px;
+    max-width: 42px;
+    border-style: solid;
+    border-width: thin;
+    cursor: pointer;
+}
+
+.all_ships_placed {
+    background-color: lightblue;
+    animation-name: placeships;
+    animation-duration: 1s;
+}
+
+.disabled {
+    pointer-events: none;
+}
+
+.ship_locations {
+    background: lightblue;
+}
+
+.hover_locations {
+    background: #368fef;
+}
+
+.cannot_place_ship {
+    background: #ff6961;
+}
+
+.salvo_locations {
+    background: orange;
+}
+
+.hit_locations {
+    background: #ff1b1b;
+}
+
+.sink_locations {
+    background: lightgray;
+}
+
+.turns {
+    color: white;
+    font-size: 10px;
+}
+
+@keyframes placeships {
+    from {
+        background-color: #368fef;
+    }
+
+    to {
+        background-color: lightblue;
+    }
+}
+
+.tablecontainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.gametitle {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0 30px 0;
+}
+
+.gamesubtitle {
+    display: flex;
+    align-self: center;
+    margin-bottom: 10px;
+}
+
+.tablewrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.shiptable {
+    margin: 5px 0 0 20px;
+    display: flex;
+}
+
+.shiptable td {
+    height: 24px;
+    width: 24px;
+    border-style: solid;
+    border-width: thin;
+    background: lightblue;
+    cursor: pointer;
+}
+
+.shiptable th {
+    font-size: .8em;
+}
+
+.togglecontainer {
+    width: 300px;
+    height: 24px;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    user-select: none;
+    cursor: pointer;
+    margin: 30px 0 0 20px;
+}
+
+.inner-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: inherit;
+    height: inherit;
+    text-transform: uppercase;
+    font-size: .6em;
+    letter-spacing: .2em;
+}
+
+.inner-container:first-child {
+    background: #e9e9e9;
+    color: #a9a9a9;
+}
+
+.inner-container:nth-child(2) {
+    background: lightblue;
+    color: white;
+    clip-path: inset(0 50% 0 0);
+    transition: .3s cubic-bezier(0, 0, 0, 1);
+}
+
+.toggle {
+    width: 50%;
+    position: absolute;
+    height: inherit;
+    display: flex;
+    box-sizing: border-box;
+}
+
+.toggle p {
+    margin: auto;
+}
+
+.toggle:nth-child(1) {
+    right: 0;
+}
+
+.selected td {
+    background: #368fef;
+}
+
+.placed td {
+    background: none;
+}
+
+.submitbutton {
+    width: 300px;
+    height: 36px;
+    align-self: center;
+    font-size: .8em;
+    letter-spacing: .2em;
+    cursor: pointer;
+    border-radius: 6px;
+    background: #368fef;
+    color: white;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.submitbutton:hover {
+    background: white;
+    color: #368fef;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #368fef;
+}
+
+.disabledbutton {
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+.fire {
+    background: orange;
+}
+
+.fire:hover {
+    background: white;
+    color: orange;
+    border-style: solid;
+    border-width: 1px;
+    border-color: orange;
+}
+
+.back {
+    height: 34px;
+    background: white;
+    border-style: solid;
+    border-color: #368fef;
+    border-width: 1px;
+    color: #368fef;
+    position: absolute;
+    margin: 0;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.back:hover {
+    background: #368fef;
+    color: white;
+}
+
+.submitbutton:active {
+    background: #b5b2ad;
+}
+
+.submitbutton:hover {
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+.gamestate_message {
+    position: absolute;
+    margin: 0;
+    top: 40%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    background: gray;
+    padding: 5px;
+    border-radius: 6px;
+    color: white;
+}
+
+.disabledship td {
+    background: white;
+    pointer-events: none;
+}
+
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #ff6961;
+    color: white;
+    text-align: center;
+    border-radius: 4px;
+    padding: 6px;
+    position: fixed;
+    z-index: 1;
+    top: 20px;
+    opacity: 0.9;
+}
+
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+
+    to {
+        top: 20px;
+        opacity: 0.9;
+    }
+}
+
+@keyframes fadein {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+
+    to {
+        top: 20px;
+        opacity: 0.9;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        top: 20px;
+        opacity: 0.9;
+    }
+
+    to {
+        top: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        top: 20px;
+        opacity: 0.9;
+    }
+
+    to {
+        top: 0;
+        opacity: 0;
+    }
+}
